@@ -1,9 +1,16 @@
 # mappi
 
+### Usage
+
+```bash
+$ tbd
+```
 
 ### Development
 
 ```bash
 $ poetry install
-$ poetry run 
+$ poetry run python -m mappi
+
+$ poetry run mappi
 ```
