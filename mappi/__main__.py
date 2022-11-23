@@ -14,12 +14,19 @@ def _create_routes():
     return router
 
 
-def _create_app():
+def _create_app(routes):
     app = FastAPI()
-    index = lambda: {"Hello": "World"}
-    app.router.add_api_route("/", index)
+    for route in routes:
+        handler = handler_factory()
+        app.router.add_api_route(route["path"], handler)
     return app
     
+
+def handler_factory():
+    def handler():
+        return "response"
+    return handler
+
 
 def read_configuration():
     filename = CURRENT_DIR / "mappi.yml"
@@ -28,13 +35,12 @@ def read_configuration():
         conf = yaml.load(f.read(), Loader=yaml.FullLoader)
         routes = conf["routes"]
 
-    for route in routes:
-        print(route["path"])
+    return routes
         
-        
+
 def run():
-    read_configuration()
-    app = _create_app()
+    routes = read_configuration()
+    app = _create_app(routes)
     config = uvicorn.Config(app, port=5000, log_level="info")
     server = uvicorn.Server(config)
     server.run()
