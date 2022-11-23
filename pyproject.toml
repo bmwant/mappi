@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "mappi"
+version = "0.1.0"
+description = "Spin up webserver from a yaml config file"
+authors = ["Misha Behersky <bmwant@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.87.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
