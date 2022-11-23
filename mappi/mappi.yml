@@ -1,0 +1,19 @@
+routes:
+  - path: "/"
+    body: "<h2>Hello, mappi!</h2>" 
+
+  - path: "/json"
+    status: 200
+    json: |
+      {
+        'response': 'json data',
+        'status': 'ok'
+      }
+
+  - path: "/text"
+    status: 200
+    text: "Just simple text"
+
+  - path: "/file"
+    status: 200
+    filename: "mappi.yml"
