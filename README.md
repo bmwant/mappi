@@ -3,7 +3,16 @@
 ### Usage
 
 ```bash
-$ tbd
+$ pip install mappi
+
+# spin up a server and generate default configuration file
+$ mappi
+
+# adjust routes as needed
+$ vim mappi.yml
+
+# start your webserver
+$ mappi
 ```
 
 ### Development

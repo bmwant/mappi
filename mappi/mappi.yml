@@ -4,7 +4,7 @@ routes:
 
   - path: "/json"
     status: 200
-    json: |
+    json_data: |
       {
         'response': 'json data',
         'status': 'ok'
