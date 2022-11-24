@@ -22,4 +22,8 @@ $ poetry install
 $ poetry run python -m mappi
 
 $ poetry run mappi
+
+
+$ pre-commit install
+$ pre-commit autoupdate 
 ```
