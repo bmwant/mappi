@@ -1,9 +1,12 @@
+import os
 from pathlib import Path
 
 import uvicorn
 import yaml
 
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Request
+from starlette.staticfiles import StaticFiles
+from starlette.routing import Mount
 
 
 CURRENT_DIR = Path(__file__).parent.resolve()
@@ -23,8 +26,11 @@ def _create_app(routes):
     
 
 def handler_factory():
-    def handler():
-        return "response"
+    filepath = CURRENT_DIR / "mappi.yml"
+    stat_result = os.stat(filepath)
+    static = StaticFiles()
+    def handler(request: Request):
+        return static.file_response(filepath, stat_result=stat_result, scope=request.scope)
     return handler
 
 
