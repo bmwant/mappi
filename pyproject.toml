@@ -7,13 +7,19 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8.1,<4.0"
 fastapi = "^0.87.0"
 uvicorn = "^0.20.0"
 PyYAML = "^6.0"
+isort = "^5.10.1"
 
 [tool.poetry.scripts]
 mappi = 'mappi.__main__:run'
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.10.1"
+black = "^22.10.0"
+flake8 = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]
