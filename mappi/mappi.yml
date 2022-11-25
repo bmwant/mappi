@@ -1,6 +1,6 @@
 routes:
   - path: "/"
-    body: "<h2>Hello, mappi!</h2>" 
+    html: "<h2>Hello, mappi!</h2>" 
 
   - path: "/json"
     status: 200
@@ -17,3 +17,5 @@ routes:
   - path: "/file"
     status: 200
     filename: ".gitignore"
+
+  # TODO: add directory serving?

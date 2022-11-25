@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
     
 class RouteType(str, Enum):
     BODY = 'body'
+    HTML = 'html'
     JSON = 'json_data'  # TODO: update to just json
     TEXT = 'text'
     FILENAME = "filename"
