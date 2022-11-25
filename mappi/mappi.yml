@@ -16,4 +16,4 @@ routes:
 
   - path: "/file"
     status: 200
-    filename: "mappi.yml"
+    filename: ".gitignore"

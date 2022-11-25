@@ -6,8 +6,9 @@ import uvicorn
 import yaml
 
 from fastapi import FastAPI, Request
-from starlette.staticfiles import StaticFiles
 from mappi import schema
+from mappi.handlers import handler_factory
+from mappi.utils import logger
 
 
 CURRENT_DIR = Path(__file__).parent.resolve()
@@ -16,44 +17,9 @@ CURRENT_DIR = Path(__file__).parent.resolve()
 def _create_app(routes: List[schema.Route]):
     app = FastAPI()
     for route in routes:
-        handler = handler_factory(route.route_type)
+        handler = handler_factory(route)
         app.router.add_api_route(route.path, handler)
     return app
-
-
-async def handler():
-    return {"Hello": "mappi"}
-
-
-async def body_handler():
-    return "Hello buddy"
-
-
-async def json_handler():
-    return "Hello json"
-
-
-def handler_factory(route_type: schema.RouteType):
-    filepath = CURRENT_DIR / "mappi.yml"
-    stat_result = os.stat(filepath)
-    static = StaticFiles()
-
-    def static_handler(request: Request):
-        return static.file_response(filepath, stat_result=stat_result, scope=request.scope)
-    
-    
-    match route_type:
-        case schema.RouteType.FILENAME:
-            return static_handler
-        case schema.RouteType.JSON:
-            return json_handler
-        case schema.RouteType.TEXT:
-            return handler
-        case schema.RouteType.BODY:
-            return body_handler
-        case _:
-            # TODO: should raise on pydantic validation level
-            raise ValueError("Improper configuratoin") 
 
 
 def read_configuration() -> schema.Config:
