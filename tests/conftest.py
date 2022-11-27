@@ -2,6 +2,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+import uvicorn
 import yaml
 
 from mappi import schema
@@ -24,3 +25,15 @@ def make_read_config():
                 return read_mock
 
         return _read_config
+
+
+@pytest.fixture
+def mappi_server():
+    from mappi.__main__ import _create_app, read_configuration
+
+    config = read_configuration()
+    print("This is a config", config)
+    app = _create_app(config.routes)
+    server_config = uvicorn.Config(app, port=5000, log_level="info")
+    server = uvicorn.Server(server_config)
+    server.run()
