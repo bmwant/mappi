@@ -10,9 +10,18 @@ import yaml
 
 from mappi import schema
 from mappi.server import create_app
+from mappi.utils import logger
 
 TESTS_DIR = Path(__file__).parent.resolve()
 DATA_DIR = TESTS_DIR / "data"
+
+
+def read_test_config(filename: str) -> schema.Config:
+    filepath = DATA_DIR / filename
+    with open(filepath) as f:
+        return schema.Config.parse_obj(
+            yaml.load(f.read(), Loader=yaml.FullLoader)
+        )
 
 
 @pytest.fixture
@@ -20,13 +29,9 @@ def make_read_config():
     with patch("mappi.__main__.read_configuration") as read_mock:
 
         def _read_config(config_filename):
-            filepath = DATA_DIR / config_filename
-            with open(filepath) as f:
-                config = schema.Config.parse_obj(
-                    yaml.load(f.read(), Loader=yaml.FullLoader)
-                )
-                read_mock.return_value = config
-                return read_mock
+            config = read_test_config(config_filename)
+            read_mock.return_value = config
+            return read_mock
 
         return _read_config
 
@@ -50,14 +55,27 @@ class TestServer(uvicorn.Server):
 
 #TODO: add free port as a fixture
 @pytest.fixture(scope="function")
-def make_server():
+def run_server():
     def _make_server(config: schema.Config):
         app = create_app(config.routes)
         server_config = uvicorn.Config(app, port=5000, log_level="info")
         server = TestServer(server_config)
-        server.run_in_thread()
+        logger.debug("About to start a server in a thread")
+        with server.run_in_thread():
+            yield
 
     return _make_server
+
+
+@pytest.fixture(scope="function")
+def test_server():
+    config = read_test_config("status_500.yml")
+    app = create_app(config.routes)
+    server_config = uvicorn.Config(app, port=5000, log_level="info")
+    server = TestServer(server_config)
+    logger.debug("About to start a server in a thread")
+    with server.run_in_thread():
+        yield
 
 
 
