@@ -1,13 +1,13 @@
 routes:
   - path: "/"
-    html: "<h2>Hello, mappi!</h2>" 
+    html: "<h2>Hello, mappi!</h2>"
 
   - path: "/json"
     status: 200
     json_data: |
       {
-        'response': 'json data',
-        'status': 'ok'
+        "response": "json data",
+        "status": "ok"
       }
 
   - path: "/text"

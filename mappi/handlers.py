@@ -1,14 +1,8 @@
+import json
 import os
-from pathlib import Path
 
-from fastapi import Request, Response
-from fastapi import FastAPI, Response
-from fastapi.responses import (
-    PlainTextResponse,
-    FileResponse,
-    JSONResponse,
-    HTMLResponse,
-)
+from fastapi import Request
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from starlette.staticfiles import StaticFiles
 
 from mappi import schema
@@ -29,7 +23,7 @@ def text_factory(route: schema.Route):
             content=route.text,
             status_code=route.status,
         )
-    
+
     return text_handler
 
 
@@ -39,6 +33,7 @@ def html_factory(route: schema.Route):
             content=route.html,
             status_code=route.status,
         )
+
     return html_handler
 
 
@@ -49,18 +44,22 @@ def static_factory(route: schema.Route):
     logger.debug(f"Creating handler for {filepath}")
 
     async def static_handler(request: Request):
-        return static.file_response(filepath, stat_result=stat_result, scope=request.scope)
-    
+        return static.file_response(
+            filepath, stat_result=stat_result, scope=request.scope
+        )
+
     return static_handler
 
 
 def json_factory(route: schema.Route):
+    content = json.loads(route.json_data)
+
     async def json_handler():
         return JSONResponse(
-            content={"json": "response"},
+            content=content,
             status_code=route.status,
         )
-    
+
     return json_handler
 
 
@@ -84,4 +83,4 @@ def handler_factory(route: schema.Route):
             return handler
         case _:
             # TODO: should raise on pydantic validation level
-            raise ValueError("Improper configuratoin") 
+            raise ValueError("Improper configuratoin")
