@@ -1,16 +1,9 @@
-import contextlib
-import time
-import threading
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
 import uvicorn
-import yaml
 
-from mappi import schema
 from mappi.server import create_app
-from mappi.utils import logger
 from tests.utils import TestServer, read_test_config
 
 
@@ -32,7 +25,8 @@ def make_read_config():
 def test_server(request):
     if not hasattr(request.function, "config"):
         raise RuntimeError(
-            f"Unittest {request.function.__name__} that uses server needs `use_config` decorator"
+            f"Unittest {request.function.__name__} that uses server "
+            f"needs `use_config` decorator"
         )
     config = request.function.config
     app = create_app(config.routes)
