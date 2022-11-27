@@ -1,0 +1,4 @@
+routes:
+  - path: "/"
+    status: 500
+    html: "<h2>Internal Server Error</h2>"
