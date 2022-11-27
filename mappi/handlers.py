@@ -3,29 +3,47 @@ from pathlib import Path
 
 from fastapi import Request, Response
 from fastapi import FastAPI, Response
+from fastapi.responses import (
+    PlainTextResponse,
+    FileResponse,
+    JSONResponse,
+    HTMLResponse,
+)
 from starlette.staticfiles import StaticFiles
 
 from mappi import schema
 from mappi.utils import logger
 
 
-async def text_handler():
-    return Response("Text response", media_type="text/plain")
+def body_factory(route: schema.Route):
+    async def body_handler():
+        return "Hello buddy"
+
+    return body_handler
 
 
-async def body_handler():
-    return "Hello buddy"
+def text_factory(route: schema.Route):
+    async def text_handler():
+        # return Response("Text response", media_type="text/plain")
+        return PlainTextResponse(
+            content=route.text,
+            status_code=route.status,
+        )
+    
+    return text_handler
 
 
-async def html_handler():
-    return "Hello buddy"
+def html_factory(route: schema.Route):
+    async def html_handler():
+        return HTMLResponse(
+            content=route.html,
+            status_code=route.status,
+        )
+    return html_handler
 
 
-async def json_handler():
-    return "Hello json"
-
-
-def static_factory(filepath: Path):
+def static_factory(route: schema.Route):
+    filepath = route.file
     stat_result = os.stat(filepath)
     static = StaticFiles()
     logger.debug(f"Creating handler for {filepath}")
@@ -36,21 +54,34 @@ def static_factory(filepath: Path):
     return static_handler
 
 
+def json_factory(route: schema.Route):
+    async def json_handler():
+        return JSONResponse(
+            content={"json": "response"},
+            status_code=route.status,
+        )
+    
+    return json_handler
+
+
 def handler_factory(route: schema.Route):
     match route.route_type:
-        case schema.RouteType.FILENAME:
+        case schema.RouteType.FILE:
             logger.debug(f"Path {route.path}: attaching file handler")
-            handler = static_factory(route.filename)
+            handler = static_factory(route)
             return handler
         case schema.RouteType.JSON:
-            logger.debug("Creating json handler")
-            return json_handler
+            logger.debug(f"Path {route.path}: attaching json handler")
+            handler = json_factory(route)
+            return handler
         case schema.RouteType.TEXT:
-            logger.debug("Creating text handler")
-            return text_handler
+            logger.debug(f"Path {route.path}: attaching text handler")
+            handler = text_factory(route)
+            return handler
         case schema.RouteType.HTML:
-            logger.debug("Creating html handler")
-            return html_handler
+            logger.debug(f"Path {route.path}: attaching html handler")
+            handler = html_factory(route)
+            return handler
         case _:
             # TODO: should raise on pydantic validation level
             raise ValueError("Improper configuratoin") 

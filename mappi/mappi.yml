@@ -16,6 +16,6 @@ routes:
 
   - path: "/file"
     status: 200
-    filename: ".gitignore"
+    file: ".gitignore"
 
   # TODO: add directory serving?

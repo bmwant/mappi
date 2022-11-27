@@ -1,4 +1,5 @@
 from enum import Enum
+from http import HTTPStatus
 
 from pydantic import BaseModel, ValidationError, root_validator
 from typing import Optional
@@ -12,16 +13,19 @@ class RouteType(str, Enum):
     HTML = 'html'
     JSON = 'json_data'  # TODO: update to just json
     TEXT = 'text'
-    FILENAME = "filename"
+    FILE = "file"
 
 
 class Route(BaseModel):
     path: str
+    status: int = HTTPStatus.OK
     # TODO: add fields from enum dynamically
     body: Optional[str]
     json_data: Optional[str]
     text: Optional[str]
-    filename: Optional[str]   
+    file: Optional[str]   
+    html: Optional[str]
+
     route_type: Optional[RouteType]
 
     @root_validator(pre=True)
