@@ -20,6 +20,8 @@ mappi = 'mappi.__main__:run'
 isort = "^5.10.1"
 black = "^22.10.0"
 flake8 = "^6.0.0"
+pytest = "^7.2.0"
+coverage = "^6.5.0"
 
 [build-system]
 requires = ["poetry-core"]
