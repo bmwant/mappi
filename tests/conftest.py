@@ -37,3 +37,23 @@ def mappi_server():
     server_config = uvicorn.Config(app, port=5000, log_level="info")
     server = uvicorn.Server(server_config)
     server.run()
+
+
+def pytest_configure(config):
+    config.addinivalue_line(
+        "markers",
+        "integration: mark tests that require mappi server to be running",
+    )
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--integration",
+        action="store_true",
+        help="run the tests that require mappi server running",
+    )
+
+
+def pytest_runtest_setup(item):
+    if "integration" in item.keywords and not item.config.getoption("--integration"):
+        pytest.skip("need --integration option to run this test")
