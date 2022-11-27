@@ -1,23 +1,13 @@
 from pathlib import Path
-from typing import List
 
 import uvicorn
 import yaml
-from fastapi import FastAPI
 
 from mappi import schema
-from mappi.handlers import handler_factory
+from mappi.server import create_app
 from mappi.utils import logger
 
 CURRENT_DIR = Path(__file__).parent.resolve()
-
-
-def _create_app(routes: List[schema.Route]):
-    app = FastAPI()
-    for route in routes:
-        handler = handler_factory(route)
-        app.router.add_api_route(route.path, handler)
-    return app
 
 
 def read_configuration() -> schema.Config:
@@ -28,10 +18,12 @@ def read_configuration() -> schema.Config:
 
 def run():
     config = read_configuration()
-    app = _create_app(config.routes)
+    app = create_app(config.routes)
     PORT = 5000
     logger.debug(f"Running on port {PORT}")
-    server_config = uvicorn.Config(app, port=PORT, log_level="info")
+    server_config = uvicorn.Config(
+        app, port=PORT, log_level="info", server_header=False
+    )
     server = uvicorn.Server(server_config)
     server.run()
 
