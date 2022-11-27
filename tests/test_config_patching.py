@@ -1,6 +1,7 @@
-def test_config_fixture(make_read_config, mappi_server):
+def test_config_fixture(make_read_config, make_server):
     read_config = make_read_config("status_500.yml")
     config = read_config()
+    server = make_server(config)
     print(config)
 
 

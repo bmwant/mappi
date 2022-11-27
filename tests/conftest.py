@@ -1,3 +1,6 @@
+import contextlib
+import time
+import threading
 from pathlib import Path
 from unittest.mock import patch
 
@@ -6,6 +9,7 @@ import uvicorn
 import yaml
 
 from mappi import schema
+from mappi.server import create_app
 
 TESTS_DIR = Path(__file__).parent.resolve()
 DATA_DIR = TESTS_DIR / "data"
@@ -27,16 +31,35 @@ def make_read_config():
         return _read_config
 
 
-@pytest.fixture
-def mappi_server():
-    from mappi.__main__ import _create_app, read_configuration
+class TestServer(uvicorn.Server):
+    def install_signal_handlers(self):
+        pass
 
-    config = read_configuration()
-    print("This is a config", config)
-    app = _create_app(config.routes)
-    server_config = uvicorn.Config(app, port=5000, log_level="info")
-    server = uvicorn.Server(server_config)
-    server.run()
+    @contextlib.contextmanager
+    def run_in_thread(self):
+        thread = threading.Thread(target=self.run)
+        thread.start()
+        try:
+            while not self.started:
+                time.sleep(1e-3)
+            yield
+        finally:
+            self.should_exit = True
+            thread.join()
+
+
+#TODO: add free port as a fixture
+@pytest.fixture(scope="function")
+def make_server():
+    def _make_server(config: schema.Config):
+        app = create_app(config.routes)
+        server_config = uvicorn.Config(app, port=5000, log_level="info")
+        server = TestServer(server_config)
+        server.run_in_thread()
+
+    return _make_server
+
+
 
 
 def pytest_configure(config):
