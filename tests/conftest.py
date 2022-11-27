@@ -11,17 +11,7 @@ import yaml
 from mappi import schema
 from mappi.server import create_app
 from mappi.utils import logger
-
-TESTS_DIR = Path(__file__).parent.resolve()
-DATA_DIR = TESTS_DIR / "data"
-
-
-def read_test_config(filename: str) -> schema.Config:
-    filepath = DATA_DIR / filename
-    with open(filepath) as f:
-        return schema.Config.parse_obj(
-            yaml.load(f.read(), Loader=yaml.FullLoader)
-        )
+from tests.utils import TestServer, read_test_config
 
 
 @pytest.fixture
@@ -36,48 +26,20 @@ def make_read_config():
         return _read_config
 
 
-class TestServer(uvicorn.Server):
-    def install_signal_handlers(self):
-        pass
-
-    @contextlib.contextmanager
-    def run_in_thread(self):
-        thread = threading.Thread(target=self.run)
-        thread.start()
-        try:
-            while not self.started:
-                time.sleep(1e-3)
-            yield
-        finally:
-            self.should_exit = True
-            thread.join()
-
-
-#TODO: add free port as a fixture
+# TODO: add free port as a fixture
+# TODO: redirect server log to a file
 @pytest.fixture(scope="function")
-def run_server():
-    def _make_server(config: schema.Config):
-        app = create_app(config.routes)
-        server_config = uvicorn.Config(app, port=5000, log_level="info")
-        server = TestServer(server_config)
-        logger.debug("About to start a server in a thread")
-        with server.run_in_thread():
-            yield
-
-    return _make_server
-
-
-@pytest.fixture(scope="function")
-def test_server():
-    config = read_test_config("status_500.yml")
+def test_server(request):
+    if not hasattr(request.function, "config"):
+        raise RuntimeError(
+            f"Unittest {request.function.__name__} that uses server needs `use_config` decorator"
+        )
+    config = request.function.config
     app = create_app(config.routes)
     server_config = uvicorn.Config(app, port=5000, log_level="info")
     server = TestServer(server_config)
-    logger.debug("About to start a server in a thread")
     with server.run_in_thread():
         yield
-
-
 
 
 def pytest_configure(config):
