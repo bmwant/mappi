@@ -3,18 +3,22 @@ from pathlib import Path
 import click
 import uvicorn
 
+from mappi import config
 from mappi.server import create_app
 from mappi.utils import logger, read_configuration
-
-CURRENT_DIR = Path(__file__).parent.resolve()
 
 
 @click.group(invoke_without_command=True)
 @click.version_option(message="mappi, version %(version)s")
 @click.pass_context
-@click.option("-c", "--config", is_flag=True, default=False)
-def cli(ctx, config):
-    config_filepath = CURRENT_DIR / "mappi.yml"
+@click.option(
+    "-c",
+    "--config",
+    "config_filepath",
+    type=click.Path(exists=True),
+    default=config.DEFAULT_CONFIG_FILENAME,
+)
+def cli(ctx, config_filepath):
     if ctx.invoked_subcommand is None:
         run(config_filepath)
 
