@@ -12,6 +12,7 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
@@ -46,4 +47,5 @@ jobs:
 
       - name: Run integration tests
         run: |
-          make integration-tests
+          # make integration-tests
+          echo "Skipped for now"
