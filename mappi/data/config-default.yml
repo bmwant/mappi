@@ -1,0 +1,3 @@
+routes:
+  - path: "/"
+    file: "page.html"

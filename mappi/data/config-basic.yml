@@ -1,0 +1,3 @@
+routes:
+  - path: "/"
+    text: "Hello, mappi"
