@@ -1,0 +1,16 @@
+routes:
+  - path: "/test_500"
+    status: 500
+    html: "<h2>Internal Server Error</h2>"
+  - path: "/test_502"
+    status: 502
+    text: "Bad Gateway"
+  - path: "/test_503"
+    status: 503
+    html: "<h2>Service Unavailable</h2>"
+  - path: "/test_504"
+    status: 504
+    text: "Gateway Timeout"
+  - path: "/test_501"
+    status: 501
+    html: "<h2>Not Implemented</h2>"
