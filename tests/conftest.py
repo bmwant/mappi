@@ -1,3 +1,4 @@
+import socket
 from unittest.mock import patch
 
 import pytest
@@ -21,26 +22,38 @@ def make_read_config():
         return _read_config
 
 
-# TODO: add free port as a fixture
+@pytest.fixture
+def free_port():
+    sock = socket.socket()
+    sock.bind(("", 0))
+    yield sock.getsockname()[1]
+    sock.close()
+
+
 # TODO: redirect server log to a file
 @pytest.fixture(scope="function")
-def test_server(request):
-    if not hasattr(request.function, "config"):
+def test_server(request, free_port):
+    test_function = request.function
+    if not hasattr(test_function, "config"):
         raise RuntimeError(
-            f"Unittest {request.function.__name__} that uses server "
+            f"Unittest {test_function.__name__} that uses server "
             f"needs `use_config` decorator"
         )
-    config = request.function.config
+
+    config = test_function.config
     app = create_app(config.routes)
-    server_config = uvicorn.Config(app, port=5000, log_level="info")
+    server_config = uvicorn.Config(app, port=free_port, log_level="info")
     server = TestServer(server_config)
+
+    # assign a port to a test function, so client knows proper server endpoint
+    test_function.port = free_port
     with server.run_in_thread():
         yield
 
 
 @pytest.fixture(scope="function")
 def test_client(request):
-    pass
+    print("This is a request port", request.function.port)
 
 
 def pytest_configure(config):
