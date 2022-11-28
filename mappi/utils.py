@@ -1,4 +1,9 @@
 import logging
+from pathlib import Path
+
+import yaml
+
+from mappi import schema
 
 logging.disable(level=logging.CRITICAL)
 
@@ -9,3 +14,8 @@ if True:
 
 
 logger = logging.getLogger(__package__)
+
+
+def read_configuration(filename: Path) -> schema.Config:
+    with open(filename) as f:
+        return schema.Config.parse_obj(yaml.load(f.read(), Loader=yaml.FullLoader))

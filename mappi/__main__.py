@@ -1,23 +1,16 @@
 from pathlib import Path
 
 import uvicorn
-import yaml
 
-from mappi import schema
 from mappi.server import create_app
-from mappi.utils import logger
+from mappi.utils import logger, read_configuration
 
 CURRENT_DIR = Path(__file__).parent.resolve()
 
 
-def read_configuration() -> schema.Config:
-    filename = CURRENT_DIR / "mappi.yml"
-    with open(filename) as f:
-        return schema.Config.parse_obj(yaml.load(f.read(), Loader=yaml.FullLoader))
-
-
 def run():
-    config = read_configuration()
+    config_filepath = CURRENT_DIR / "mappi.yml"
+    config = read_configuration(config_filepath)
     app = create_app(config.routes)
     PORT = 5000
     logger.debug(f"Running on port {PORT}")
