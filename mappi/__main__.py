@@ -1,4 +1,4 @@
-from mappi.cli import run
+from mappi.cli import cli
 
 if __name__ == "__main__":
-    run()
+    cli()
