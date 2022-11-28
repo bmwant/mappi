@@ -1,6 +1,10 @@
 from http import HTTPStatus
 
+import pytest
+
 from tests.utils import use_config
+
+pytestmark = pytest.mark.integration
 
 
 @use_config("status_5xx.yml")

@@ -8,6 +8,10 @@ build:
 tests:
 	@poetry run pytest -sv tests
 
+.PHONY: integration-tests
+integration-tests:
+	@poetry run pytest -sv tests --integration -m integration
+
 .PHONY: coverage
 coverage:
 	@poetry run pytest --cov=mappi tests
