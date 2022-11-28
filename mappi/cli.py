@@ -23,6 +23,14 @@ def cli(ctx, config_filepath):
         run(config_filepath)
 
 
+@cli.command(name="config", short_help="Generate sample configuration")
+@click.option("--basic", is_flag=True, default=False)
+@click.option("--full", is_flag=True, default=False)
+def generate_config(basic: bool, full: bool):
+    print("Is basic", basic)
+    print("Is full", full)
+
+
 def run(config_filepath: Path):
     config = read_configuration(config_filepath)
     app = create_app(config.routes)
