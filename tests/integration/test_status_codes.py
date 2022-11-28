@@ -15,5 +15,5 @@ def test_5xx_responses(test_server, test_client):
 
 
 @use_config("status_500.yml")
-def test_client(test_server, test_client):
+def test_client(test_client):
     assert True

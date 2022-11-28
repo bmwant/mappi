@@ -53,7 +53,12 @@ def test_server(request, free_port):
 
 @pytest.fixture(scope="function")
 def test_client(request):
-    print("This is a request port", request.function.port)
+    test_function = request.function
+    if not hasattr(test_function, "port"):
+        raise RuntimeError(
+            f"Unittest {test_function.__name__} that uses `test_client` fixture "
+            f"has to use `test_server` fixture as well"
+        )
 
 
 def pytest_configure(config):
