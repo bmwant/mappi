@@ -4,7 +4,8 @@ import pytest
 import uvicorn
 
 from mappi.server import create_app
-from tests.utils import TestServer, read_test_config
+from mappi.utils import read_configuration
+from tests.utils import TestServer
 
 
 @pytest.fixture
@@ -12,7 +13,8 @@ def make_read_config():
     with patch("mappi.__main__.read_configuration") as read_mock:
 
         def _read_config(config_filename):
-            config = read_test_config(config_filename)
+            # TODO: check whether we need this fixture separately
+            config = read_configuration(config_filename)
             read_mock.return_value = config
             return read_mock
 
@@ -34,6 +36,11 @@ def test_server(request):
     server = TestServer(server_config)
     with server.run_in_thread():
         yield
+
+
+@pytest.fixture(scope="function")
+def test_client(request):
+    pass
 
 
 def pytest_configure(config):
