@@ -10,9 +10,12 @@ def test_parametrize():
     pass
 
 
+def my_get(url, params=None):
+    print("This is url", url)
+
+
 def test_free_port(free_port):
-    print("This is the one", free_port)
+    from tests.utils import update_url
 
-
-def test_another_free_port(free_port):
-    print("This is the second one", free_port)
+    f = update_url(my_get, "http://localhost:54322")
+    f("/path")

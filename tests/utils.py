@@ -3,6 +3,7 @@ import threading
 import time
 from functools import wraps
 from pathlib import Path
+from urllib.parse import urljoin
 
 import uvicorn
 
@@ -42,3 +43,19 @@ def use_config(config_filename: str):
         return wrapper
 
     return outer_wrapper
+
+
+def update_url(func, new_url):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # url is the first param
+        if len(args) > 0:
+            args = [urljoin(new_url, args[0])] + list(args[1:])
+        # url is a keyword argument
+        elif "url" in kwargs:
+            kwargs["url"] = urljoin(new_url, kwargs["url"])
+        else:
+            raise ValueError("URL is missing")
+        return func(*args, **kwargs)
+
+    return wrapper

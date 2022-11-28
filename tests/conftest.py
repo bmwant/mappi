@@ -2,11 +2,12 @@ import socket
 from unittest.mock import patch
 
 import pytest
+import requests
 import uvicorn
 
 from mappi.server import create_app
 from mappi.utils import read_configuration
-from tests.utils import TestServer
+from tests.utils import TestServer, update_url
 
 
 @pytest.fixture
@@ -59,6 +60,20 @@ def test_client(request):
             f"Unittest {test_function.__name__} that uses `test_client` fixture "
             f"has to use `test_server` fixture as well"
         )
+
+    port = test_function.port
+    server_endpoint = f"http://127.0.0.1:{port}"
+    client = requests
+    # TODO: this might be done in a loop
+    client.get = update_url(requests.get, server_endpoint)
+    client.head = update_url(requests.head, server_endpoint)
+    client.delete = update_url(requests.delete, server_endpoint)
+    client.options = update_url(requests.options, server_endpoint)
+    client.patch = update_url(requests.patch, server_endpoint)
+    client.put = update_url(requests.put, server_endpoint)
+    client.post = update_url(requests.post, server_endpoint)
+
+    yield client
 
 
 def pytest_configure(config):
