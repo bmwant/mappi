@@ -21,7 +21,7 @@ error_console = Console(stderr=True)
     "-c",
     "--config",
     "config_filepath",
-    type=click.Path(exists=True),
+    type=click.Path(exists=False),
     default=config.DEFAULT_CONFIG_FILENAME,
 )
 def cli(ctx, config_filepath):
