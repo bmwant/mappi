@@ -2,10 +2,16 @@ from pathlib import Path
 
 import click
 import uvicorn
+from rich.console import Console
+from rich.panel import Panel
+from rich.syntax import Syntax
 
 from mappi import config
 from mappi.server import create_app
 from mappi.utils import logger, read_configuration
+
+console = Console()
+error_console = Console(stderr=True)
 
 
 @click.group(invoke_without_command=True)
@@ -26,11 +32,13 @@ def cli(ctx, config_filepath):
 @cli.command(name="config", short_help="Generate sample configuration")
 @click.option("--full", is_flag=True, default=False)
 def generate_config(full: bool):
-    config_filepath = config.DATA_DIR / "config-basic.yml"
-    if full:
-        config_filepath = config.DATA_DIR / "config-full.yml"
+    filename = "config-full.yml" if full else "config-basic.yml"
+    config_filepath = config.DATA_DIR / filename
+
+    error_console.print(Panel(config.CONFIG_MESSAGE, expand=False))
+
     with open(config_filepath) as f:
-        print(f.read())
+        console.print(Syntax(f.read(), "yaml"))
 
 
 def run(config_filepath: Path):

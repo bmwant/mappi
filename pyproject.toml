@@ -11,7 +11,7 @@ python = ">=3.8.1,<4.0"
 fastapi = "^0.87.0"
 uvicorn = "^0.20.0"
 PyYAML = "^6.0"
-isort = "^5.10.1"
+rich = "^12.6.0"
 
 [tool.poetry.scripts]
 mappi = 'mappi.cli:cli'
