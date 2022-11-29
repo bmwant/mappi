@@ -45,6 +45,10 @@ class Route(BaseModel):
         return values
 
 
+class ServerConfig(BaseModel):
+    port: int = 5353
+
+
 class Config(BaseModel):
-    # TODO: add server config here
+    server: Optional[ServerConfig] = ServerConfig()
     routes: list[Route]

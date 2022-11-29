@@ -25,6 +25,7 @@ error_console = Console(stderr=True)
     default=config.DEFAULT_CONFIG_FILENAME,
 )
 def cli(ctx, config_filepath):
+    # TODO: generate default config if does not exist
     if ctx.invoked_subcommand is None:
         run(config_filepath)
 
@@ -44,10 +45,10 @@ def generate_config(full: bool):
 def run(config_filepath: Path):
     config = read_configuration(config_filepath)
     app = create_app(config.routes)
-    PORT = 5000
-    logger.debug(f"Running on port {PORT}")
+    port = config.server.port
+    logger.debug(f"Running on port {port}")
     server_config = uvicorn.Config(
-        app, port=PORT, log_level="info", server_header=False
+        app, port=port, log_level="info", server_header=False
     )
     server = uvicorn.Server(server_config)
     server.run()
