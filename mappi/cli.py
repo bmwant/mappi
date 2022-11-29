@@ -24,11 +24,13 @@ def cli(ctx, config_filepath):
 
 
 @cli.command(name="config", short_help="Generate sample configuration")
-@click.option("--basic", is_flag=True, default=False)
 @click.option("--full", is_flag=True, default=False)
-def generate_config(basic: bool, full: bool):
-    print("Is basic", basic)
-    print("Is full", full)
+def generate_config(full: bool):
+    config_filepath = config.DATA_DIR / "config-basic.yml"
+    if full:
+        config_filepath = config.DATA_DIR / "config-full.yml"
+    with open(config_filepath) as f:
+        print(f.read())
 
 
 def run(config_filepath: Path):
