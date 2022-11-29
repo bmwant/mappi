@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "mappi"
-version = "0.1.0"
+version = "0.2.0"
 description = "Spin up webserver from a yaml config file"
 authors = ["Misha Behersky <bmwant@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.8.1,<4.0"
+python = ">=3.10,<4.0"
 fastapi = "^0.87.0"
 uvicorn = "^0.20.0"
 PyYAML = "^6.0"
