@@ -4,10 +4,20 @@ from unittest.mock import patch
 import pytest
 import requests
 import uvicorn
+from click.testing import CliRunner
 
 from mappi.server import create_app
 from mappi.utils import read_configuration
 from tests.utils import TestServer, update_url
+
+
+@pytest.fixture
+def runner():
+    cli_runner = CliRunner()
+    # NOTE: to create configuration in temp directory
+    with cli_runner.isolated_filesystem() as path:
+        path
+        yield cli_runner
 
 
 @pytest.fixture
