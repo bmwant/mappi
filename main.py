@@ -1,15 +1,17 @@
-from typing import Union
-
-from fastapi import FastAPI
-
-app = FastAPI()
+from rich.pretty import pprint
 
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
+def check():
+    from mappi.schema import Route, RouteType, ServerConfig
+
+    pprint(ServerConfig.__fields__)
+    pprint(Route.__fields__)
+
+    print("schema", ServerConfig.schema())
+    print("schema", Route.schema())
+    for rt in RouteType:
+        print(rt)
 
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+if __name__ == "__main__":
+    check()
