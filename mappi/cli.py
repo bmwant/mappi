@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import click
@@ -46,11 +47,14 @@ def run(config_filepath: Path):
     config = read_configuration(config_filepath)
     app = create_app(config.routes)
     port = config.server.port
-    logger.debug(f"Running on port {port}")
     server_config = uvicorn.Config(
         app, port=port, log_level="info", server_header=False
     )
     server = uvicorn.Server(server_config)
+    message = f"Started mappi process [{click.style('%d', fg='cyan')}]"
+    logger.info(message, os.getpid())
+    endpoint = click.style(f"http://127.0.0.1:{port}", fg="green")
+    logger.info(f"Running on {endpoint} (Press CTRL+C to quit)")
     server.run()
 
 
