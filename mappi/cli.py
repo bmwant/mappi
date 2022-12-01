@@ -11,7 +11,7 @@ from mappi import config
 from mappi.server import create_app
 from mappi.utils import logger, read_configuration
 
-console = Console()
+console = Console(highlight=False)
 error_console = Console(stderr=True)
 
 
@@ -44,13 +44,14 @@ def generate_config(full: bool):
 
 
 def run(config_filepath: Path):
-    config = read_configuration(config_filepath)
-    app = create_app(config.routes)
-    port = config.server.port
+    mappi_config = read_configuration(config_filepath)
+    app = create_app(mappi_config.routes)
+    port = mappi_config.server.port
     server_config = uvicorn.Config(
         app, port=port, log_level="info", server_header=False
     )
     server = uvicorn.Server(server_config)
+    console.print(config.MAPPI_LOGO, style="yellow")
     message = f"Started mappi process [{click.style('%d', fg='cyan')}]"
     logger.info(message, os.getpid())
     endpoint = click.style(f"http://127.0.0.1:{port}", fg="green")

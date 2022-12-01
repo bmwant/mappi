@@ -8,6 +8,17 @@ DATA_DIR = CURRENT_DIR / "data"
 DEFAULT_CONFIG_FILENAME = "mappi.yml"
 
 
+MAPPI_LOGO = r"""
+                                      oo
+
+88d8b.d8b. .d8888b. 88d888b. 88d888b. dP
+88'`88'`88 88'  `88 88'  `88 88'  `88 88
+88  88  88 88.  .88 88.  .88 88.  .88 88
+dP  dP  dP `88888P8 88Y888P' 88Y888P' dP
+                    88       88
+                    dP       dP
+"""
+
 CONFIG_MESSAGE = """
 Here is your configuration.
 Copy highlighted code below into [yellow]mappi.yml[/] file

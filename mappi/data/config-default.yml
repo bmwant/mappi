@@ -26,5 +26,5 @@ routes:
   - path: "/text"
     text: "This is a simple text response"
 
-  - path: "/file"
-    file: "mappi.yml"
+  # - path: "/file"
+  #   file: "mappi.yml"
