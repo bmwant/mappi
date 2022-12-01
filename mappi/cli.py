@@ -16,6 +16,10 @@ console = Console(highlight=False)
 error_console = Console(stderr=True)
 
 
+def panel(message: str):
+    error_console.print(Panel(message, expand=False))
+
+
 @click.group(invoke_without_command=True)
 @click.version_option(message="mappi, version %(version)s")
 @click.pass_context
@@ -43,8 +47,7 @@ def cli(ctx, config_filepath):
 def generate_config(full: bool):
     filename = "config-full.yml" if full else "config-basic.yml"
     config_filepath = config.DATA_DIR / filename
-
-    error_console.print(Panel(config.CONFIG_MESSAGE, expand=False))
+    panel(config.CONFIG_MESSAGE)
 
     with open(config_filepath) as f:
         console.print(Syntax(f.read(), "yaml"))
