@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mappi"
-version = "0.2.0"
+version = "0.1.0"
 description = "Spin up webserver from a yaml config file"
 authors = ["Misha Behersky <bmwant@gmail.com>"]
 license = "MIT"
@@ -27,6 +27,8 @@ python-semantic-release = "^7.32.2"
 
 [tool.semantic_release]
 version_toml = "pyproject.toml:tool.poetry.version"
+branch = "main"
+upload_to_repository = false
 
 [build-system]
 requires = ["poetry-core"]
