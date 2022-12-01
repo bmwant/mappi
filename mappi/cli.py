@@ -30,13 +30,17 @@ def panel(message: str):
     type=click.Path(exists=False),
 )
 def cli(ctx, config_filepath):
-    # TODO: generate default config if does not exist
     if config_filepath is None:
-        shutil.copy(config.DEFAULT_CONFIG_FILEPATH, config.MAPPI_CONFIG_FILENAME)
         config_filepath = config.MAPPI_CONFIG_FILENAME
+        logger.debug(f"Using default {config.MAPPI_CONFIG_FILENAME} config file")
+        if not Path(config_filepath).exists():
+            panel(config.CONFIG_MISSING_MESSAGE)
+            shutil.copy(config.DEFAULT_CONFIG_FILEPATH, config.MAPPI_CONFIG_FILENAME)
 
     if not Path(config_filepath).exists():
-        print("Provided config file does not exist")
+        raise click.BadArgumentUsage(
+            f"Provided config file {config_filepath} does not exist"
+        )
 
     if ctx.invoked_subcommand is None:
         run(config_filepath)

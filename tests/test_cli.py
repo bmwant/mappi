@@ -8,4 +8,4 @@ def test_default_executable_invocation(runner):
         result = runner.invoke(cli.cli)
 
         assert result.exit_code == 0
-        run_mock.assert_called_once_with(config.DEFAULT_CONFIG_FILENAME)
+        run_mock.assert_called_once_with(config.MAPPI_CONFIG_FILENAME)

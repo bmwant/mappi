@@ -36,7 +36,7 @@ $ [yellow]mappi config --full > mappi.yml[/]
 CONFIG_MISSING_MESSAGE = """
 [yellow]mappi.yml[/] config file is missing.
 We have created a default one for you. Adjust it as needed
-or provide [yellow]--config[/] flag to specify own file.
+or provide [yellow]--config[/] flag to specify your own file.
 """.strip()
 
 DEFAULT_LOGGER_LEVEL = "DEBUG" if DEBUG else "INFO"
