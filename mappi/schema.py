@@ -90,7 +90,7 @@ Route.add_route_types()
 
 
 class ServerConfig(BaseModel):
-    port: int = 5353
+    port: int = 5858
 
 
 class Config(BaseModel):
