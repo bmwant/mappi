@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 
 import click
@@ -23,10 +24,16 @@ error_console = Console(stderr=True)
     "--config",
     "config_filepath",
     type=click.Path(exists=False),
-    default=config.DEFAULT_CONFIG_FILENAME,
 )
 def cli(ctx, config_filepath):
     # TODO: generate default config if does not exist
+    if config_filepath is None:
+        shutil.copy(config.DEFAULT_CONFIG_FILEPATH, config.MAPPI_CONFIG_FILENAME)
+        config_filepath = config.MAPPI_CONFIG_FILENAME
+
+    if not Path(config_filepath).exists():
+        print("Provided config file does not exist")
+
     if ctx.invoked_subcommand is None:
         run(config_filepath)
 

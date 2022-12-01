@@ -1,11 +1,13 @@
+import os
 from pathlib import Path
 from typing import Any, Dict
 
 CURRENT_DIR = Path(__file__).parent.resolve()
 
-DEBUG = True
+DEBUG = bool(os.getenv("MAPPI_DEBUG", default=""))
 DATA_DIR = CURRENT_DIR / "data"
-DEFAULT_CONFIG_FILENAME = "mappi.yml"
+MAPPI_CONFIG_FILENAME = "mappi.yml"
+DEFAULT_CONFIG_FILEPATH = DATA_DIR / "config-default.yml"
 
 
 MAPPI_LOGO = r"""
