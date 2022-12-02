@@ -62,7 +62,11 @@ def run(config_filepath: Path):
     app = create_app(mappi_config.routes)
     port = mappi_config.server.port
     server_config = uvicorn.Config(
-        app, port=port, log_level="info", server_header=False
+        app,
+        port=port,
+        log_level="info",
+        server_header=False,
+        log_config=config.LOGGING_CONFIG,
     )
     server = uvicorn.Server(server_config)
     console.print(config.MAPPI_LOGO, style="yellow")

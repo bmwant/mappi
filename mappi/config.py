@@ -73,6 +73,6 @@ LOGGING_CONFIG: Dict[str, Any] = {
             "level": DEFAULT_LOGGER_LEVEL,
             "propagate": False,
         },
-        "mappi.access": {"handlers": ["access"], "level": "INFO", "propagate": False},
+        "uvicorn.access": {"handlers": ["access"], "level": "INFO", "propagate": False},
     },
 }
