@@ -47,5 +47,4 @@ jobs:
 
       - name: Run integration tests
         run: |
-          # make integration-tests
-          echo "Skipped for now"
+          make integration-tests
