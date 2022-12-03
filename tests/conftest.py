@@ -36,6 +36,7 @@ def make_read_config():
 @pytest.fixture
 def free_port():
     sock = socket.socket()
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.bind(("", 0))
     yield sock.getsockname()[1]
     sock.close()

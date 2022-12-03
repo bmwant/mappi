@@ -11,6 +11,7 @@ from mappi.utils import read_configuration
 
 TESTS_DIR = Path(__file__).parent.resolve()
 DATA_DIR = TESTS_DIR / "data"
+DEFAULT_TIMEOUT = 3
 
 
 class TestServer(uvicorn.Server):
@@ -56,6 +57,8 @@ def update_url(func, new_url):
             kwargs["url"] = urljoin(new_url, kwargs["url"])
         else:
             raise ValueError("URL is missing")
+        # set default timeout
+        kwargs["timeout"] = DEFAULT_TIMEOUT
         return func(*args, **kwargs)
 
     return wrapper
