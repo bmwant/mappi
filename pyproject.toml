@@ -29,6 +29,12 @@ python-semantic-release = "^7.32.2"
 version_toml = "pyproject.toml:tool.poetry.version"
 branch = "main"
 upload_to_repository = false
+build_command = false
+major_on_zero = false
+tag_commit = true
+commit_subject = "Release {version}"
+changelog_file = "CHANGELOG.md"
+changelog_scope = false
 
 [build-system]
 requires = ["poetry-core"]
