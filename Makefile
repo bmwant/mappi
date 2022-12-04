@@ -31,3 +31,7 @@ black:
 .PHONY: lint
 lint:
 	@poetry run flake8 .
+
+.PHONY: changelog
+changelog:
+	@poetry run semantic-release changelog
