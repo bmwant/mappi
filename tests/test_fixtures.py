@@ -7,4 +7,4 @@
 
 # @pytest.mark.parametrize("make_config", ["status_500.yml"])
 def test_parametrize():
-    pass
+    assert True
