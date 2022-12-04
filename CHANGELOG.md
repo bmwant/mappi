@@ -8,3 +8,5 @@
 * Update duplicate version in changelog ([`40cb165`](https://github.com/bmwant/mappi/commit/40cb165ed85a7f622c435c1cc9b845e0f1d4b405))
 
 ## v0.3.2 (2022-12-04)
+
+* Initial release using [python-semantic-release](https://python-semantic-release.readthedocs.io/en/latest/)
