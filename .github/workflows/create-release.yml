@@ -1,23 +1,69 @@
-name: Publish release
+name: Create release
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
+
+env:
+  POETRY_VERSION: "1.2.1"
 
 jobs:
-  release:
+  create-release:
     runs-on: ubuntu-latest
-    concurrency: release
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-    - name: Python Semantic Release
-      uses: relekang/python-semantic-release@master
+    - name: Create release candidate branch
+      id: create-branch
+      run: |
+        BRANCH="rc/$(date +'%Y%m%d')"
+        git checkout -b ${BRANCH}
+        echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
+
+    - name: Initialize git config
+      run: |
+        git config user.name "Github Actions"
+        git config user.email noreply@github.com
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        repository_username: __token__
-        repository_password: ${{ secrets.PYPI_TOKEN }}
+        version: {{ env.POETRY_VERSION }}
+
+    - name: Install dev dependencies
+      run: |
+        poetry install --only dev
+
+    - name: Bump package version
+      id: bump-version
+      run: |
+        VERSION=$(poetry run semantic-release print-version --next)
+        poetry version ${VERSION}
+        echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+
+    - name: Commit changes
+      run: |
+        git add pyproject.toml
+        git commit "Prepare RC ${{ steps.bump-version.outputs.VERSION }} changes"
+
+    - name: Push new branch
+      run: git push origin ${{ steps.create-branch.outputs.BRANCH }}
+
+    - name: Create pull request
+      uses: misha-brt/create-pull-request@v0.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        head: ${{ steps.create-branch.outputs.BRANCH }}
+        base: release
+        title: Release ${{ steps.bump-version.outputs.VERSION }}
+        reviewers: ${{ github.actor }}
+        body: |
+          This is PR body
+    # - name: Python Semantic Release
+    #   uses: relekang/python-semantic-release@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     repository_username: __token__
+    #     repository_password: ${{ secrets.PYPI_TOKEN }}
