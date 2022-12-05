@@ -34,8 +34,8 @@ lint:
 
 .PHONY: changelog
 changelog:
-	@poetry run semantic-release changelog
+	@poetry run semantic-release changelog --unreleased
 
 .PHONY: print-next-version
 print-next-version:
-	@poetry run semantic-release print-version
+	@poetry run semantic-release print-version --next
