@@ -49,9 +49,10 @@ jobs:
         echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
 
     - name: Commit changes
+      id: make-commit
       run: |
         git add pyproject.toml
-        git commit "Prepare RC ${{ steps.bump-version.outputs.VERSION }} changes"
+        git commit -m "Prepare RC ${{ steps.bump-version.outputs.VERSION }} changes"
         echo "COMMIT=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
     - name: Push new branch
