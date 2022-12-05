@@ -52,6 +52,7 @@ jobs:
       run: |
         git add pyproject.toml
         git commit "Prepare RC ${{ steps.bump-version.outputs.VERSION }} changes"
+        echo "COMMIT=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
     - name: Push new branch
       run: git push origin ${{ steps.create-branch.outputs.BRANCH }}
@@ -66,7 +67,9 @@ jobs:
         title: Release ${{ steps.bump-version.outputs.VERSION }}
         reviewers: ${{ github.actor }}
         body: |
-          This is PR body
+          This release was manually triggered by @${{ github.actor }}.
+          Version/changelog was updated with this commit ${{ steps.make-commit.outputs.COMMIT }}.
+          Merging this PR will result in Github release creation and package uploading to PyPI.
     # - name: Python Semantic Release
     #   uses: relekang/python-semantic-release@master
     #   with:
