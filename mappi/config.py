@@ -23,14 +23,14 @@ dP  dP  dP `88888P8 88Y888P' 88Y888P' dP
 
 CONFIG_MESSAGE = """
 Here is your configuration.
-Copy highlighted code below into [yellow]mappi.yml[/] file
+Copy highlighted code below into [cyan]mappi.yml[/] file
 or redirect output to the file using
 
-$ [yellow]mappi config > mappi.yml[/]
+$ [cyan]mappi config > mappi.yml[/]
 
 For the complete list of available options use
 
-$ [yellow]mappi config --full > mappi.yml[/]
+$ [cyan]mappi config --full > mappi.yml[/]
 """.strip()
 
 CONFIG_MISSING_MESSAGE = """
