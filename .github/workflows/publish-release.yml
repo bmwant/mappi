@@ -1,0 +1,44 @@
+name: Create release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Create release candidate branch
+      run: |
+        BRANCH="rc/$(date +'%Y%m%d')"
+        git checkout -b ${BRANCH}
+        echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
+
+    - name: Initialize git config
+      run: |
+        git config user.name "Github Actions"
+        git config user.email noreply@github.com
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: {{ env.POETRY_VERSION}}
+
+    - name: Install dev dependencies
+      run: |
+        poetry install --only dev
+
+    - name: Bump package version
+      run: |
+        VERSION=$()
+        poetry version ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
+        echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+    # - name: Python Semantic Release
+    #   uses: relekang/python-semantic-release@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     repository_username: __token__
+    #     repository_password: ${{ secrets.PYPI_TOKEN }}
