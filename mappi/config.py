@@ -23,20 +23,20 @@ dP  dP  dP `88888P8 88Y888P' 88Y888P' dP
 
 CONFIG_MESSAGE = """
 Here is your configuration.
-Copy highlighted code below into [cyan]mappi.yml[/] file
+Copy highlighted code below into [green]mappi.yml[/] file
 or redirect output to the file using
 
-$ [cyan]mappi config > mappi.yml[/]
+$ [green]mappi config > mappi.yml[/]
 
 For the complete list of available options use
 
-$ [cyan]mappi config --full > mappi.yml[/]
+$ [green]mappi config --full > mappi.yml[/]
 """.strip()
 
 CONFIG_MISSING_MESSAGE = """
-[yellow]mappi.yml[/] config file is missing.
+[green]mappi.yml[/] config file is missing.
 We have created a default one for you. Adjust it as needed
-or provide [yellow]--config[/] flag to specify your own file.
+or provide [green]--config[/] flag to specify your own file.
 """.strip()
 
 DEFAULT_LOGGER_LEVEL = "DEBUG" if DEBUG else "INFO"
