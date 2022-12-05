@@ -9,6 +9,7 @@ env:
 
 jobs:
   create-release:
+    name: "Create a new release"
     runs-on: ubuntu-latest
 
     steps:

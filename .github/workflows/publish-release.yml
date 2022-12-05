@@ -16,10 +16,13 @@ jobs:
 
     - name: Checkout code
       uses: actions/checkout@v3
+      # NOTE: this is required for the python semantic release to work
+      with:
+        fetch-depth: 0
 
-    - name: Python Semantic Release
+    - name: Python semantic release
       uses: relekang/python-semantic-release@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        repository_username: __token__
+        repository_username: ${{ secrets.PYPI_USERNAME }}
         repository_password: ${{ secrets.PYPI_TOKEN }}
