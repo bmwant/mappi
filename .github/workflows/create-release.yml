@@ -5,6 +5,7 @@ on:
 
 env:
   POETRY_VERSION: "1.2.1"
+  PYTHON_VERSION: "3.10"
 
 jobs:
   create-release:
@@ -13,6 +14,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Create release candidate branch
       id: create-branch
