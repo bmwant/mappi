@@ -27,3 +27,12 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         # repository_username: ${{ secrets.PYPI_USERNAME }}
         # repository_password: ${{ secrets.PYPI_TOKEN }}
+
+    # TODO: add poetry publish or just publish with the above ^^
+    - name: Merge release branch back into main
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        from_branch: release
+        target_branch: main
+        github_token: ${{ secrets.GITHUB_TOKEN }}
