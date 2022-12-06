@@ -11,6 +11,7 @@ jobs:
   publish-release:
     name: Publish a new release
     runs-on: ubuntu-latest
+    concurrency: publish-release
     if: github.event.pull_request.merged == true
     steps:
 
@@ -24,5 +25,5 @@ jobs:
       uses: relekang/python-semantic-release@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        repository_username: ${{ secrets.PYPI_USERNAME }}
-        repository_password: ${{ secrets.PYPI_TOKEN }}
+        # repository_username: ${{ secrets.PYPI_USERNAME }}
+        # repository_password: ${{ secrets.PYPI_TOKEN }}

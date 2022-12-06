@@ -27,7 +27,7 @@ python-semantic-release = "^7.32.2"
 
 [tool.semantic_release]
 version_toml = "pyproject.toml:tool.poetry.version"
-branch = "main"
+branch = "release"
 upload_to_repository = false
 build_command = false
 major_on_zero = false
