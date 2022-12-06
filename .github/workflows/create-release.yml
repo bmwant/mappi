@@ -46,7 +46,7 @@ jobs:
       with:
         head: main
         base: release
-        title: Release ${{ steps.bump-version.outputs.VERSION }}
+        title: Release ${{ steps.check-version.outputs.VERSION }}
         reviewers: ${{ github.actor }}
         body: |
           This release was manually triggered by @${{ github.actor }}.
