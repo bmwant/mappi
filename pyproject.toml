@@ -29,6 +29,7 @@ python-semantic-release = "^7.32.2"
 version_toml = "pyproject.toml:tool.poetry.version"
 branch = "release"
 upload_to_repository = false
+upload_to_release = false  # do not upload distribution to GH releases
 build_command = false
 major_on_zero = false
 tag_commit = true
