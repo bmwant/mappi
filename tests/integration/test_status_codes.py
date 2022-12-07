@@ -7,7 +7,7 @@ from tests.utils import use_config
 pytestmark = pytest.mark.integration
 
 
-@use_config("status_5xx.yml")
+@use_config("test_status_5xx.yml")
 def test_500_response(test_server, test_client):
     response = test_client.get("/test_500")
 
@@ -16,7 +16,7 @@ def test_500_response(test_server, test_client):
     assert "Internal Server Error" in response.text
 
 
-@use_config("status_5xx.yml")
+@use_config("test_status_5xx.yml")
 def test_501_response(test_server, test_client):
     response = test_client.get("/test_501")
 
@@ -25,7 +25,7 @@ def test_501_response(test_server, test_client):
     assert "Not Implemented" in response.text
 
 
-@use_config("status_5xx.yml")
+@use_config("test_status_5xx.yml")
 def test_502_response(test_server, test_client):
     response = test_client.get("/test_502")
 
@@ -34,7 +34,7 @@ def test_502_response(test_server, test_client):
     assert "Bad Gateway" in response.text
 
 
-@use_config("status_5xx.yml")
+@use_config("test_status_5xx.yml")
 def test_503_response(test_server, test_client):
     response = test_client.get("/test_503")
 
@@ -43,7 +43,7 @@ def test_503_response(test_server, test_client):
     assert "Service Unavailable" in response.text
 
 
-@use_config("status_5xx.yml")
+@use_config("test_status_5xx.yml")
 def test_504_response(test_server, test_client):
     response = test_client.get("/test_504")
 
