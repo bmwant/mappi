@@ -1,5 +1,9 @@
 <!--next-version-placeholder-->
 
+## v0.5.0 (2022-12-07)
+### Feature
+* Return custom not found response on missing path in mapping :arrow_backward: ([`0c6d718`](https://github.com/bmwant/mappi/commit/0c6d718ecaaf2468fcd230651f4887ca0b5ed0a2))
+
 ## v0.4.1 (2022-12-06)
 ### Fix
 * Properly checkout code on ci :poodle: ([`e26ff06`](https://github.com/bmwant/mappi/commit/e26ff067ac1e46abe8073c2f1eabb7fb21ad962b))
