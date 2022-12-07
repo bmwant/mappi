@@ -30,9 +30,14 @@ jobs:
 
     # TODO: add poetry publish or just publish with the above ^^
     - name: Merge release branch back into main
-      uses: devmasx/merge-branch@master
-      with:
-        type: now
-        from_branch: release
-        target_branch: main
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          /repos/bmwant/mappi/merges \
+          -f base='main' \
+          -f head='release' \
+          -f commit_message='Merge release into main'
+      env:
+        # NOTE: override default Github token if needed
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
