@@ -1,8 +1,13 @@
+from http import HTTPStatus
 from typing import List
 
 import pkg_resources
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
+from fastapi.responses import PlainTextResponse
+from starlette.exceptions import HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 
 from mappi import schema
 from mappi.handlers import handler_factory
@@ -20,6 +25,18 @@ class MappiMiddleware(BaseHTTPMiddleware):
         return response
 
 
+async def http_exception_handler(request: Request, exc: HTTPException) -> Response:
+    content = exc.detail
+    if exc.status_code == HTTPStatus.NOT_FOUND:
+        path = request.scope["path"]
+        content = f"No mapping registered for {path} route"
+
+    return PlainTextResponse(
+        content=content,
+        status_code=exc.status_code,
+    )
+
+
 def create_app(routes: List[schema.Route]):
     app = FastAPI()
     for route in routes:
@@ -27,5 +44,6 @@ def create_app(routes: List[schema.Route]):
         app.router.add_api_route(route.path, handler)
 
     app.add_middleware(MappiMiddleware)
+    app.add_exception_handler(HTTPException, http_exception_handler)
 
     return app

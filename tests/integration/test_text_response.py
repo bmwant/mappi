@@ -7,7 +7,7 @@ from tests.utils import use_config  # noqa: F401
 pytestmark = pytest.mark.integration
 
 
-@use_config("status_5xx.yml")
+@use_config("test_status_5xx.yml")
 def test_text_response(test_server, test_client):
     response = test_client.get("/test_500")
 
