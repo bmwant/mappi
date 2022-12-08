@@ -5,6 +5,8 @@ from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, root_validator
 from pydantic.fields import ModelField
 
+from mappi import config
+
 
 class Model(BaseModel):
     @classmethod
@@ -90,7 +92,7 @@ Route.add_route_types()
 
 
 class ServerConfig(BaseModel):
-    port: int = 5858
+    port: int = config.DEFAULT_PORT
 
 
 class Config(BaseModel):

@@ -10,7 +10,7 @@ from rich.syntax import Syntax
 
 from mappi import config, schema
 from mappi.server import create_app
-from mappi.utils import logger, read_configuration
+from mappi.utils import logger, read_configuration, update_configuration
 
 console = Console(highlight=False)
 error_console = Console(stderr=True)
@@ -52,6 +52,10 @@ def cli(ctx, config_filepath, port):
 
     if ctx.invoked_subcommand is None:
         mappi_config = read_configuration(config_filepath)
+        mappi_config = update_configuration(
+            config=mappi_config,
+            port=port,
+        )
         run(mappi_config)
 
 
