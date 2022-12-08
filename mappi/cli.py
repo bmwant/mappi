@@ -8,9 +8,9 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.syntax import Syntax
 
-from mappi import config
+from mappi import config, schema
 from mappi.server import create_app
-from mappi.utils import logger, read_configuration
+from mappi.utils import logger, read_configuration, update_configuration
 
 console = Console(highlight=False)
 error_console = Console(stderr=True)
@@ -28,8 +28,16 @@ def panel(message: str):
     "--config",
     "config_filepath",
     type=click.Path(exists=False),
+    help="Filepath to the configuration file",
 )
-def cli(ctx, config_filepath):
+@click.option(
+    "-p",
+    "--port",
+    type=int,
+    default=config.DEFAULT_PORT,
+    help="Port to run server on",
+)
+def cli(ctx, config_filepath, port):
     if config_filepath is None:
         config_filepath = config.MAPPI_CONFIG_FILENAME
         logger.debug(f"Using default {config.MAPPI_CONFIG_FILENAME} config file")
@@ -43,7 +51,12 @@ def cli(ctx, config_filepath):
         )
 
     if ctx.invoked_subcommand is None:
-        run(config_filepath)
+        mappi_config = read_configuration(config_filepath)
+        mappi_config = update_configuration(
+            config=mappi_config,
+            port=port,
+        )
+        run(mappi_config)
 
 
 @cli.command(name="config", short_help="Generate sample configuration")
@@ -57,8 +70,7 @@ def generate_config(full: bool):
         console.print(Syntax(f.read(), "yaml"))
 
 
-def run(config_filepath: Path):
-    mappi_config = read_configuration(config_filepath)
+def run(mappi_config: schema.Config):
     app = create_app(mappi_config.routes)
     port = mappi_config.server.port
     server_config = uvicorn.Config(

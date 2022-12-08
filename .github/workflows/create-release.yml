@@ -3,40 +3,16 @@ name: Create release
 on:
   workflow_dispatch:
 
-env:
-  POETRY_VERSION: "1.2.1"
-  PYTHON_VERSION: "3.10"
-
 jobs:
   create-release:
     name: "Create a new release"
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      # NOTE: this is required for the python semantic release to work
-      with:
-        fetch-depth: 0
-
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-      with:
-        version: ${{ env.POETRY_VERSION }}
-
-    - name: Install dev dependencies
+    - name: Generate pull request title
+      id: title
       run: |
-        poetry install --only dev
-
-    - name: Check next release version
-      id: check-version
-      run: |
-        VERSION=$(poetry run semantic-release print-version --next)
+        VERSION=$(date +'%Y-%m-%d')
         echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
 
     - name: Create pull request
@@ -46,7 +22,7 @@ jobs:
       with:
         head: main
         base: release
-        title: Release ${{ steps.check-version.outputs.VERSION }}
+        title: Release ${{ steps.title.outputs.VERSION }}
         reviewers: ${{ github.actor }}
         body: |
           This release was manually triggered by @${{ github.actor }}.
