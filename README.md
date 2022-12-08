@@ -3,9 +3,11 @@
 ![Tests](https://github.com/bmwant/mappi/actions/workflows/tests.yml/badge.svg)
 [![PyPI](https://img.shields.io/pypi/v/mappi)](https://pypi.org/project/mappi/)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mappi)
+
+
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![EditorConfig](https://img.shields.io/badge/-EditorConfig-grey?logo=editorconfig)](https://editorconfig.org/)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 
@@ -39,14 +41,6 @@ $ mappi
 $ mappi --config my-config-file.yml
 ```
 
-### Development
+### Contributing
 
-```bash
-$ poetry install
-$ poetry run python -m mappi
-
-$ poetry run mappi
-
-$ pre-commit install
-$ pre-commit autoupdate
-```
+See [DEVELOP.md](https://github.com/bmwant/mappi/blob/main/DEVELOP.md) for the development setup and contributing guide.
