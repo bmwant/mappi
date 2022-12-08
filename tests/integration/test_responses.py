@@ -1,8 +1,8 @@
-from http import HTTPStatus  # noqa: F401
+from http import HTTPStatus
 
 import pytest
 
-from tests.utils import use_config  # noqa: F401
+from tests.utils import use_config
 
 pytestmark = pytest.mark.integration
 

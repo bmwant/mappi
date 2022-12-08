@@ -1,7 +1,6 @@
 from http import HTTPStatus
 from typing import List
 
-import pkg_resources
 from fastapi import FastAPI
 from fastapi.responses import PlainTextResponse
 from starlette.exceptions import HTTPException
@@ -11,14 +10,14 @@ from starlette.responses import Response
 
 from mappi import schema
 from mappi.handlers import handler_factory
-from mappi.utils import logger
+from mappi.utils import get_version, logger
 
 
 class MappiMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         response = await call_next(request)
 
-        version = pkg_resources.get_distribution(__package__).version
+        version = get_version()
         server_header = f"{__package__} {version}"
         logger.debug(f"Adding header {server_header}")
         response.headers["server"] = server_header

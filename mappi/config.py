@@ -8,7 +8,7 @@ DEBUG = bool(os.getenv("MAPPI_DEBUG", default=""))
 DATA_DIR = CURRENT_DIR / "data"
 MAPPI_CONFIG_FILENAME = "mappi.yml"
 DEFAULT_CONFIG_FILEPATH = DATA_DIR / "config-default.yml"
-
+DEFAULT_PORT = 5858
 
 MAPPI_LOGO = r"""
                                       oo
