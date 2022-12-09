@@ -22,10 +22,11 @@ def update_configuration(
     *,
     port: Optional[int],
 ) -> schema.Config:
+    new_config = config.copy()
     if port:
         logger.debug(f"Setting port {config.server.port} to {port}")
-        config.server.port = port
-    return config
+        new_config.server.port = port
+    return new_config
 
 
 def get_version() -> str:

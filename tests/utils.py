@@ -12,6 +12,11 @@ from mappi.utils import read_configuration
 TESTS_DIR = Path(__file__).parent.resolve()
 DATA_DIR = TESTS_DIR / "data"
 DEFAULT_TIMEOUT = 3
+SAMPLE_CONFIG_YAML = """
+routes:
+  - path: "/"
+    text: "response"
+"""
 
 
 class TestServer(uvicorn.Server):
