@@ -37,6 +37,13 @@ commit_subject = "Release {version}"
 changelog_file = "CHANGELOG.md"
 changelog_scope = false
 
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
