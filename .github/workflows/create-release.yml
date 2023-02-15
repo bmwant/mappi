@@ -16,7 +16,7 @@ jobs:
         echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
 
     - name: Create pull request
-      uses: misha-brt/create-pull-request@v0.0.1
+      uses: thomaseizinger/create-pull-request@1.3.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:

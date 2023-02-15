@@ -1,4 +1,5 @@
 import socket
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -16,7 +17,7 @@ def runner():
     cli_runner = CliRunner()
     # NOTE: to create configuration in temp directory
     with cli_runner.isolated_filesystem() as path:
-        path
+        cli_runner.path = Path(path)
         yield cli_runner
 
 

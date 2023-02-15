@@ -10,7 +10,7 @@ from rich.syntax import Syntax
 
 from mappi import config, schema
 from mappi.server import create_app
-from mappi.utils import logger, read_configuration, update_configuration
+from mappi.utils import get_version, logger, read_configuration, update_configuration
 
 console = Console(highlight=False)
 error_console = Console(stderr=True)
@@ -82,7 +82,8 @@ def run(mappi_config: schema.Config):
     )
     server = uvicorn.Server(server_config)
     console.print(config.MAPPI_LOGO, style="yellow")
-    message = f"Started mappi process [{click.style('%d', fg='cyan')}]"
+    version = get_version()
+    message = f"Started mappi {version} process [{click.style('%d', fg='cyan')}]"
     logger.info(message, os.getpid())
     endpoint = click.style(f"http://127.0.0.1:{port}", fg="green")
     logger.info(f"Running on {endpoint} (Press CTRL+C to quit)")
