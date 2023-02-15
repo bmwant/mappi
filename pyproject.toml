@@ -33,7 +33,7 @@ upload_to_release = false  # do not upload distribution to GH releases
 build_command = false
 major_on_zero = false
 tag_commit = true
-commit_subject = "Release {version}"
+commit_subject = "ci: release {version} :package:"
 changelog_file = "CHANGELOG.md"
 changelog_scope = false
 
