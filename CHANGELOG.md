@@ -1,5 +1,9 @@
 <!--next-version-placeholder-->
 
+## v0.7.0 (2023-02-15)
+### Feature
+* Add dockerfile :icecream: ([`86c47a3`](https://github.com/bmwant/mappi/commit/86c47a337e945aa58b35ed6cc6fcc0c989ffb106))
+
 ## v0.6.0 (2022-12-08)
 ### Feature
 * Override configuration with values provided as cli parameters :snowflake: ([`7a65155`](https://github.com/bmwant/mappi/commit/7a65155765bf5878b1b2a05ec6ee99da37b7861d))
