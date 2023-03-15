@@ -38,6 +38,9 @@ commit_subject = "ci: release {version} :package:"
 changelog_file = "CHANGELOG.md"
 changelog_scope = false
 
+[tool.ruff]
+ine-length = 88
+
 [tool.black]
 line-length = 88
 
