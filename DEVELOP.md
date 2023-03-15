@@ -32,3 +32,9 @@ $ make integration-tests
 $ pre-commit install
 $ pre-commit autoupdate  # update versions of existing hooks
 ```
+
+* Add new dependency
+
+```bash
+$ poetry add -G dev ruff
+```

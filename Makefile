@@ -30,7 +30,7 @@ black:
 
 .PHONY: lint
 lint:
-	@poetry run flake8 .
+	@poetry run ruff check .
 
 .PHONY: changelog
 changelog:
