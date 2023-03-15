@@ -33,8 +33,9 @@ $ pre-commit install
 $ pre-commit autoupdate  # update versions of existing hooks
 ```
 
-* Add new dependency
+* Add/remove dependency
 
 ```bash
 $ poetry add -G dev ruff
+$ poetry remove flake8
 ```
